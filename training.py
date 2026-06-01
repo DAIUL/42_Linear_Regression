@@ -20,8 +20,8 @@ import json
 def training(dataset):
 	theta_0 = 0
 	theta_1 = 0
-	learning_rate = 0.001
-	tolerance = 1e-4
+	learning_rate = 0.01
+	tolerance = 1e-5
 
 	epoch = 0
 	max_epoch = 10_000
@@ -37,7 +37,7 @@ def training(dataset):
 	
 	m = len(dataset)
 
-	while abs(prev_cost - curr_cost) > tolerance or epoch != max_epoch:
+	while abs(prev_cost - curr_cost) > tolerance and epoch != max_epoch:
 
 		sum_errors_0 = 0
 		sum_errors_1 = 0
@@ -62,13 +62,17 @@ def training(dataset):
 		
 		epoch += 1
 
+	print(abs(prev_cost - curr_cost))
+
 	model = {
 		"theta_0": theta_0,
 		"theta_1": theta_1,
 		"km_mean": km_mean,
 		"km_std": km_std,
 		"price_mean": price_mean,
-		"price_std": price_std
+		"price_std": price_std,
+		"curr_cost": curr_cost,
+		"epoch": epoch
 	}
 
 	with open("model.json", "w") as f:
