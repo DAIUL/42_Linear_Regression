@@ -1,5 +1,5 @@
-import pandas as pd
 import json
+from utils import load_dataset
 
 
 # Modele ---> h(x) = tetha0 * x0 + tetha1 * x1
@@ -17,14 +17,16 @@ import json
 # cost_function = 1/m * loss
 
 
-def training(dataset):
+def training(
+	dataset,
+	learning_rate = 0.01,
+	tolerance = 1e-5,
+	max_epoch = 10_000
+):
+	
 	theta_0 = 0
 	theta_1 = 0
-	learning_rate = 0.01
-	tolerance = 1e-5
-
 	epoch = 0
-	max_epoch = 10_000
 	
 	prev_cost = float("inf")
 	curr_cost = 0
@@ -62,8 +64,6 @@ def training(dataset):
 		
 		epoch += 1
 
-	print(abs(prev_cost - curr_cost))
-
 	model = {
 		"theta_0": theta_0,
 		"theta_1": theta_1,
@@ -81,9 +81,14 @@ def training(dataset):
 	return
 
 def main():
-	dataset = pd.read_csv('Données.csv')
+	try:
+		dataset = load_dataset()
 
-	training(dataset)
+		training(dataset)
+
+		print('Training done <3')
+	except Exception as e:
+		print(e)
 
 if __name__ == '__main__':	
 	main()

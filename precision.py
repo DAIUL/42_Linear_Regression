@@ -1,14 +1,12 @@
-import pandas as pd
-import json
 from prediction import prediction
+from utils import load_dataset, load_model
 
 
 def main():
 
-	with open('model.json', 'r') as f:
-		model = json.load(f)
+	model = load_model()
 	
-	data = pd.read_csv("Données.csv")
+	data = load_dataset()
 
 	m = len(data)
 
